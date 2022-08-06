@@ -1,22 +1,33 @@
 use rand::Rng;
 use std::io;
+// mod dictionary_creator;
+// mod domain;
 
 fn main() {
     let mut dictionary_content:Vec<String> = Vec::new();
     dictionary_content.push("again".to_string());
+    dictionary_content.push("face".to_string());
+    dictionary_content.push("race".to_string());
+
 
     let dic = Dictionary {name: "YEAH".to_string(), content:(dictionary_content)};
 
     run_app(&dic,3);
 }
 
+fn get_dictionary(name: &str) -> Result<Dictionary,String> {
+    return Ok(Dictionary {name: "YEAH".to_string(), content:(Vec::new())});
+}
+
 fn run_app(dictionary: &Dictionary, sentence_length: usize){
     loop {
         let sentence = create_sentence(dictionary, sentence_length);
         print_sentence(&sentence);
-        let user_sentence_as_string = get_input_as_string();
+        let mut user_sentence_as_string = get_input_as_string();
+        user_sentence_as_string.pop();
+        user_sentence_as_string.pop();
         println!("{}",user_sentence_as_string);
-        if user_sentence_as_string == String::from("exit") {
+        if user_sentence_as_string.eq("exit"){
             println!("TermType Ended");
             break;
         }
@@ -62,11 +73,13 @@ fn compare_sentence_with_String(sentence: &Sentence,string: &String) -> bool{
     return Iterator::eq(string.split(" "),sentence.words.iter());
 }
 
-struct Sentence {
-    words: Vec<String>,
-}
-
 struct Dictionary{
     name: String,
     content: Vec<String>
 }
+
+struct Sentence {
+    words: Vec<String>,
+}
+
+
