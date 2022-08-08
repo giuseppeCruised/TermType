@@ -1,14 +1,12 @@
 use rand::Rng;
 use std::io;
-// mod dictionary_creator;
-// mod domain;
+use core::iter::zip;
 
 fn main() {
     let mut dictionary_content:Vec<String> = Vec::new();
     dictionary_content.push("again".to_string());
     dictionary_content.push("face".to_string());
     dictionary_content.push("race".to_string());
-
 
     let dic = Dictionary {name: "YEAH".to_string(), content:(dictionary_content)};
 
@@ -19,8 +17,14 @@ fn get_dictionary(name: &str) -> Result<Dictionary,String> {
     return Ok(Dictionary {name: "YEAH".to_string(), content:(Vec::new())});
 }
 
-fn run_app(dictionary: &Dictionary, sentence_length: usize){
-    loop {
+
+
+
+fn run_app(dictionary: &Dictionary, sentence_length: usize) {
+    let mut total_char_amount: usize = 0;
+    let mut wrong_char_amount: usize = 0;
+
+    loop{
         let sentence = create_sentence(dictionary, sentence_length);
         print_sentence(&sentence);
         let mut user_sentence_as_string = get_input_as_string();
@@ -67,6 +71,11 @@ fn create_sentence(dic: &Dictionary, sentence_length: usize) -> Sentence {
     }
 
     return Sentence { words: (sentence) }
+}
+
+fn sentence_string_difference(sentence: &Sentence, string: &String) -> usize {
+    return zip(string.split(" ").into_iter(),sentence.words.iter())
+          .map(|correct,guess| 1)
 }
 
 fn compare_sentence_with_String(sentence: &Sentence,string: &String) -> bool{
